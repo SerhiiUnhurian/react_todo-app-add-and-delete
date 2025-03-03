@@ -79,6 +79,7 @@ export const App: React.FC = () => {
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
+    setErrorMessage('');
 
     if (title.trim().length === 0) {
       setErrorMessage('Title should not be empty');
@@ -114,6 +115,7 @@ export const App: React.FC = () => {
   };
 
   function onDeleteTodo(todoId: number) {
+    setErrorMessage('');
     setLoading(true);
     setLoadingTodoId(todoId);
 
@@ -182,7 +184,6 @@ export const App: React.FC = () => {
           />
         )}
 
-        {/* Hide the footer if there are no todos */}
         {todos.length !== 0 && (
           <Footer
             filter={filter}
@@ -193,9 +194,6 @@ export const App: React.FC = () => {
           />
         )}
       </div>
-
-      {/* DON'T use conditional rendering to hide the notification */}
-      {/* Add the 'hidden' class to hide the message smoothly */}
 
       <div
         data-cy="ErrorNotification"

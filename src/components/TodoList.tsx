@@ -42,7 +42,6 @@ export const TodoList: React.FC<Props> = ({
           <span data-cy="TodoTitle" className="todo__title">
             {todo.title}
           </span>
-          {/* Remove button appears only on hover */}
           <button
             type="button"
             className="todo__remove"
@@ -53,7 +52,6 @@ export const TodoList: React.FC<Props> = ({
           </button>
           {/* overlay will cover the todo while it is being deleted or updated */}
           <TodoLoader loadingTodoId={loadingTodoId} todoId={todo.id} />
-          {/* {loadingTodoId === todo.id && <TodoLoader />} */}
         </div>
       ))}
 
@@ -79,7 +77,6 @@ export const TodoList: React.FC<Props> = ({
           <span data-cy="TodoTitle" className="todo__title">
             {tempTodo.title}
           </span>
-          {/* Remove button appears only on hover */}
           <button type="button" className="todo__remove" data-cy="TodoDelete">
             ×
           </button>
