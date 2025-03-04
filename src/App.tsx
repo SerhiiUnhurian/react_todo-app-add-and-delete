@@ -7,6 +7,7 @@ import { TodoList } from './components/TodoList';
 import { Todo } from './types/Todo';
 import classNames from 'classnames';
 import { Footer } from './components/Footer';
+import { Filter } from './utils/Enums';
 
 export const App: React.FC = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
@@ -15,7 +16,7 @@ export const App: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [loadingTodoId, setLoadingTodoId] = useState<number | null>(null);
   const [errorMessage, setErrorMessage] = useState('');
-  const [filter, setFilter] = useState('all');
+  const [filter, setFilter] = useState(Filter.All);
   const [tempTodo, setTempTodo] = useState<Todo | null>(null);
 
   const inputRef = useRef<HTMLInputElement | null>(null);
@@ -28,10 +29,10 @@ export const App: React.FC = () => {
 
     return todosCopy.filter(todo => {
       switch (filter) {
-        case 'active':
+        case Filter.Active:
           return !todo.completed;
 
-        case 'completed':
+        case Filter.Completed:
           return todo.completed;
 
         default:
@@ -114,7 +115,7 @@ export const App: React.FC = () => {
       });
   };
 
-  function onDeleteTodo(todoId: number) {
+  const onDeleteTodo = (todoId: number) => {
     setErrorMessage('');
     setLoading(true);
     setLoadingTodoId(todoId);
@@ -133,7 +134,7 @@ export const App: React.FC = () => {
         setLoading(false);
         setLoadingTodoId(null);
       });
-  }
+  };
 
   function clearCompletedTodos() {
     completedTodos.forEach(todo => {

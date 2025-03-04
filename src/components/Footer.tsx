@@ -1,19 +1,15 @@
 import classNames from 'classnames';
 import { Todo } from '../types/Todo';
 import React from 'react';
+import { Filter } from '../utils/Enums';
+import { v4 as uuidv4 } from 'uuid';
 
 type Props = {
   filter: string;
-  setFilter: (arg: string) => void;
+  setFilter: (value: Filter) => void;
   completedTodos: Todo[] | [];
   notCompletedTodos: Todo[] | [];
   clearCompletedTodos: () => void;
-};
-
-const FILTER_METHOD = {
-  all: 'all',
-  active: 'active',
-  completed: 'completed',
 };
 
 export const Footer: React.FC<Props> = ({
@@ -31,38 +27,19 @@ export const Footer: React.FC<Props> = ({
 
       {/* Active link should have the 'selected' class */}
       <nav className="filter" data-cy="Filter">
-        <a
-          href="#/"
-          className={classNames('filter__link', {
-            selected: filter === 'all',
-          })}
-          data-cy="FilterLinkAll"
-          onClick={() => setFilter(FILTER_METHOD.all)}
-        >
-          All
-        </a>
-
-        <a
-          href="#/active"
-          className={classNames('filter__link', {
-            selected: filter === 'active',
-          })}
-          data-cy="FilterLinkActive"
-          onClick={() => setFilter(FILTER_METHOD.active)}
-        >
-          Active
-        </a>
-
-        <a
-          href="#/completed"
-          className={classNames('filter__link', {
-            selected: filter === 'completed',
-          })}
-          data-cy="FilterLinkCompleted"
-          onClick={() => setFilter(FILTER_METHOD.completed)}
-        >
-          Completed
-        </a>
+        {Object.values(Filter).map(value => (
+          <a
+            key={uuidv4()}
+            href="#/"
+            className={classNames('filter__link', {
+              selected: filter === value,
+            })}
+            data-cy={`FilterLink${value}`}
+            onClick={() => setFilter(value)}
+          >
+            {value}
+          </a>
+        ))}
       </nav>
 
       {/* this button should be disabled if there are no completed todos */}
@@ -71,7 +48,7 @@ export const Footer: React.FC<Props> = ({
         className="todoapp__clear-completed"
         data-cy="ClearCompletedButton"
         disabled={!completedTodos.length}
-        onClick={() => clearCompletedTodos()}
+        onClick={clearCompletedTodos}
       >
         Clear completed
       </button>
